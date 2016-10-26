@@ -2,11 +2,12 @@
   // background: $bg;
   display: flex;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
   color: $color;
   font-family: "Open Sans";
 
   >div {
+    width: 75%;
     margin: auto;
     padding: px(100);
     box-shadow: 1px 1px 1px 1px rgba(200, 200, 200, 1);

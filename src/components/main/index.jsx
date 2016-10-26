@@ -10,15 +10,21 @@ import styles from './main.scss';
 // import animation from './animation.css';
 
 const Main = props => {
-  console.log(props);
-  const { ideals } = props;
+  const { actions, ideals } = props;
+  const recipients = ideals.recipients.length > 0 ? [...ideals.recipients].map(recipient => {
+    return (recipient.firstname && recipient.lastname) ? `${recipient.firstname} ${recipient.lastname}` : recipient.email;
+  })
+    .join('; ') : '';
+  const searchText = ((recipients.length > 0) ? recipients + '; ' : recipients).replace('illegal;', '');
+  console.log((recipients.length > 0) ? recipients + '; ' : recipients);
+  // console.log(recipients);
   // const dataSource3 = [
   //   {textKey: 'Some Text', valueKey: 'someFirstValue'},
   //   {textKey: 'Some Text', valueKey: 'someSecondValue'},
   // ];
   const dataSourceConfig = {
-    text: 'firstname',
-    value: 'email',
+    text: 'info',
+    value: 'info',
   };
   return (
     <section className={styles.main}>
@@ -26,35 +32,38 @@ const Main = props => {
         <div>
           <AutoComplete
             hintText="Type recipient"
-            // onUpdateInput={this.handleUpdateInput}
-            // onUpdateInput={(e, source) => {
-            //   console.log(e);
-            //   console.log(source);
-            // }}
-            onUpdateInput={props.actions.search}
+            onNewRequest={actions.setRecipient}
+            onUpdateInput={actions.search}
+            searchText={searchText}
+            errorText={recipients.includes('illegal') ? <div>Invalid Email</div> : null}
             floatingLabelText="Recipient (name or email)"
             filter={AutoComplete.caseInsensitiveFilter}
             filter={AutoComplete.noFilter}
+            fullWidth
             openOnFocus={false}
             dataSource={ideals.algolia}
             dataSourceConfig={dataSourceConfig}
+            listStyle={{ maxHeight: '50vh' }}
           />
         </div>
         <div>
           <TextField
             hintText="Type your message"
             floatingLabelText="Message"
+            fullWidth
             multiLine
             rows={10}
+            onChange={actions.setMessage}
+            value={ideals.message}
           />
         </div>
         <div>
           <FlatButton
             label="Send"
-            href="https://github.com/callemall/material-ui"
             primary
+            disabled={!(ideals.recipients.length > 0 && ideals.message.length > 0)}
             icon={<SendIcon />}
-            // onClick={props.actions.search}
+            onClick={() => actions.sendMessage({ recipients: ideals.recipients, message: ideals.message})}
           />
         </div>
       </div>
