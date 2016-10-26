@@ -1,0 +1,20 @@
+& {
+  // background: $bg;
+  display: flex;
+  align-items: center;
+  height: 100vh;
+  color: $color;
+  font-family: "Open Sans";
+
+  >div {
+    margin: auto;
+    padding: px(100);
+    box-shadow: 1px 1px 1px 1px rgba(200, 200, 200, 1);
+
+    >div {
+      display: flex;
+      justify-content: center;
+      margin: px(20) auto;
+    }
+  }
+}
