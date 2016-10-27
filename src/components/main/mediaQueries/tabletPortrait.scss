@@ -1,1 +1,12 @@
 @import '../mobile';
+
+& {
+  >div {
+    width: 75%;
+    padding: px(100);
+
+    >div {
+      font-size: 14px;
+    }
+  }
+}
