@@ -47,16 +47,16 @@ const Main = props => {
         <div>
           <AutoComplete
             hintText="Type recipient"
-            // onNewRequest={actions.setRecipient}
+            onNewRequest={actions.setRecipient}
             onUpdateInput={actions.search}
             searchText={searchText}
             errorText={recipients.includes('illegal') ? <div>Invalid Email</div> : null}
-            floatingLabelText="Recipient (name or email)"
+            floatingLabelText="Recipient (type name or email and press enter/chose from list)"
             filter={AutoComplete.caseInsensitiveFilter}
             filter={AutoComplete.noFilter}
             fullWidth
-            open
-            onBlur={actions.setRecipient}
+            // onKeyDown={e => console.log(e.keyCode)}
+            onBlur={actions.setRecipientBlur}
             openOnFocus={false}
             dataSource={ideals.algolia}
             dataSourceConfig={dataSourceConfig}

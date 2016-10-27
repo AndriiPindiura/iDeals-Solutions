@@ -35,6 +35,9 @@ const FAILURE = '_FAILURE';
 export default function (state = initialState, action) {
   switch (action.type) {
     case getAsyncType(SEARCH, SUCCESS): {
+      if (action.res.query.length < 1) {
+        return Object.assign({}, state, { recipients: [] });
+      }
       const searchList = action.res.hits.map(user => {
         const modifiedUser = Object.assign({}, user, {
           info: `${user.firstname} ${user.lastname}`,
@@ -51,6 +54,7 @@ export default function (state = initialState, action) {
       return Object.assign({}, state, { error });
     }
     case RECIPIENT: {
+      console.log(action.payload);
       // console.log(action.payload instanceof Object);
       const recipients = [...state.recipients].filter(recipient => recipient.email !== 'illegal');
       if (action.payload instanceof Object) {
@@ -100,7 +104,9 @@ export default function (state = initialState, action) {
 }
 
 export const search = payload => {
+  // console.log(payload);
   const filter = payload.split(';');
+  // console.log(filter);
   // console.log(payload);
   // console.log(payload.split(';'));
   // const queries = payload.split(';').map(query => {
@@ -118,7 +124,7 @@ export const search = payload => {
 };
 
 export const setRecipient = payload => {
-  console.log(payload);
+  // console.log(payload);
   const recipients = (payload.target && payload.target.value) || payload;
   // console.log('setRecipient');
   // console.log(payload);
@@ -133,6 +139,30 @@ export const setRecipient = payload => {
     type: RECIPIENT,
     payload: recipients,
   };
+};
+
+export const setRecipientBlur = payload => {
+  console.log(payload);
+  console.log(payload.nativeEvent.relatedTarget);
+  console.log(payload.nativeEvent.relatedTarget.toString());
+  console.log(payload.nativeEvent.relatedTarget instanceof HTMLSpanElement);
+  if (!(payload.nativeEvent.relatedTarget instanceof HTMLSpanElement)) {
+    const recipients = (payload.target && payload.target.value) || payload;
+    // console.log('setRecipient');
+    // console.log(payload);
+    // let recipient;
+    // if (index === -1) {
+    //   recipient = {};
+    //   recipient.email = validateEmail(payload) ? payload : null;
+    // } else {
+    //   recipient = payload;
+    // }
+    return {
+      type: RECIPIENT,
+      payload: recipients,
+    };
+  }
+  return { type: 'DEFAULT' };
 };
 
 export const setMessage = event => {
