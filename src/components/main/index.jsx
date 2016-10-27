@@ -46,7 +46,6 @@ const Main = props => {
             filter={AutoComplete.caseInsensitiveFilter}
             filter={AutoComplete.noFilter}
             fullWidth
-            // onKeyDown={e => console.log(e.keyCode)}
             onBlur={actions.setRecipientBlur}
             openOnFocus={false}
             dataSource={ideals.algolia}
@@ -71,12 +70,9 @@ const Main = props => {
           <FlatButton
             label="Send"
             primary
-            disabled={!(ideals.recipients.length > 0 && ideals.message.length > 0)}
+            disabled={!([...ideals.recipients].filter(recipient => recipient.email !== 'illegal').length > 0 && ideals.message.length > 0)}
             icon={<SendIcon />}
             onClick={() => actions.sendMessage({ recipients: ideals.recipients, message: ideals.message})}
-            // onClick={() => {
-            //   global.msg.show('qwertr', { time: 2000, type: 'error' });
-            // }}
           />
         </div>
       </div>
