@@ -17,16 +17,6 @@ const Main = props => {
   })
     .join('; ') : '';
   const searchText = ((recipients.length > 0) ? recipients + '; ' : recipients).replace('illegal;', '');
-  if (ideals.error) {
-    global.msg.show(ideals.error, { time: 2000, type: 'error' });
-    window.setTimeout(actions.removeError, 2000);
-  }
-  // console.log((recipients.length > 0) ? recipients + '; ' : recipients);
-  // console.log(recipients);
-  // const dataSource3 = [
-  //   {textKey: 'Some Text', valueKey: 'someFirstValue'},
-  //   {textKey: 'Some Text', valueKey: 'someSecondValue'},
-  // ];
   const dataSourceConfig = {
     text: 'info',
     value: 'info',
