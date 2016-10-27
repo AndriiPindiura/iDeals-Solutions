@@ -6,6 +6,7 @@ import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 import AutoComplete from 'material-ui/AutoComplete';
 import SendIcon from 'material-ui/svg-icons/content/mail';
+import AlertContainer from 'react-alert';
 import styles from './main.scss';
 // import animation from './animation.css';
 
@@ -16,7 +17,11 @@ const Main = props => {
   })
     .join('; ') : '';
   const searchText = ((recipients.length > 0) ? recipients + '; ' : recipients).replace('illegal;', '');
-  console.log((recipients.length > 0) ? recipients + '; ' : recipients);
+  if (ideals.error) {
+    global.msg.show(ideals.error, { time: 2000, type: 'error' });
+    window.setTimeout(actions.removeError, 2000);
+  }
+  // console.log((recipients.length > 0) ? recipients + '; ' : recipients);
   // console.log(recipients);
   // const dataSource3 = [
   //   {textKey: 'Some Text', valueKey: 'someFirstValue'},
@@ -28,11 +33,21 @@ const Main = props => {
   };
   return (
     <section className={styles.main}>
+      <section>
+        <AlertContainer
+          ref={(e) => { global.msg = e; }}
+          offset={12}
+          position={'top right'}
+          theme={'dark'}
+          time={5000}
+          transition={'fade'}
+        />
+      </section>
       <div>
         <div>
           <AutoComplete
             hintText="Type recipient"
-            onNewRequest={actions.setRecipient}
+            // onNewRequest={actions.setRecipient}
             onUpdateInput={actions.search}
             searchText={searchText}
             errorText={recipients.includes('illegal') ? <div>Invalid Email</div> : null}
@@ -40,6 +55,8 @@ const Main = props => {
             filter={AutoComplete.caseInsensitiveFilter}
             filter={AutoComplete.noFilter}
             fullWidth
+            open
+            onBlur={actions.setRecipient}
             openOnFocus={false}
             dataSource={ideals.algolia}
             dataSourceConfig={dataSourceConfig}
@@ -64,6 +81,9 @@ const Main = props => {
             disabled={!(ideals.recipients.length > 0 && ideals.message.length > 0)}
             icon={<SendIcon />}
             onClick={() => actions.sendMessage({ recipients: ideals.recipients, message: ideals.message})}
+            // onClick={() => {
+            //   global.msg.show('qwertr', { time: 2000, type: 'error' });
+            // }}
           />
         </div>
       </div>
