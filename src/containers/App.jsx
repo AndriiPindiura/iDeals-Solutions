@@ -1,8 +1,6 @@
 import React, { PropTypes } from 'react';
 // import Helmet from 'react-helmet';
 
-require('../components/main.scss');
-
 /*
  * React-router's <Router> component renders <Route>'s
  * and replaces `this.props.children` with the proper React Component.

@@ -4,8 +4,8 @@ import App from './containers/App';
 import Main from './containers/Main';
 
 
-export default (store) => {
-  console.log(store);
+// export default (store) => {
+export default () => {
   return (
     <Route path="/" component={App}>
       <IndexRoute component={Main} />

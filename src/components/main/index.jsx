@@ -21,6 +21,7 @@ const Main = props => {
     text: 'info',
     value: 'info',
   };
+  const fontStyle = { fontSize: '1em' };
   return (
     <section className={styles.main}>
       <section>
@@ -51,6 +52,7 @@ const Main = props => {
             dataSource={ideals.algolia}
             dataSourceConfig={dataSourceConfig}
             listStyle={{ maxHeight: '50vh' }}
+            textFieldStyle={fontStyle}
           />
         </div>
         <div>
@@ -62,6 +64,7 @@ const Main = props => {
             rows={10}
             onChange={actions.setMessage}
             value={ideals.message}
+            style={fontStyle}
           />
         </div>
         <div>
