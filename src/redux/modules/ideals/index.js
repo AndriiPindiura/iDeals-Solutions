@@ -49,6 +49,9 @@ export default function (state = initialState, action) {
       return Object.assign({}, state, { error });
     }
     case RECIPIENT: {
+      if (action.payload === null) {
+        return state;
+      }
       const recipients = [...state.recipients].filter(recipient => recipient.email !== 'illegal');
       if (action.payload instanceof Object) {
         recipients.push(action.payload);
@@ -109,12 +112,8 @@ export const setRecipient = payload => {
 };
 
 export const setRecipientBlur = payload => {
-  console.log(payload);
-  console.log(payload.nativeEvent.relatedTarget);
-  console.log(payload.nativeEvent.relatedTarget.toString());
-  console.log(payload.nativeEvent.relatedTarget instanceof HTMLSpanElement);
   if (!(payload.nativeEvent.relatedTarget instanceof HTMLSpanElement)) {
-    const recipients = (payload.target && payload.target.value) || payload;
+    const recipients = (payload.target && payload.target.value) || null;
     return {
       type: RECIPIENT,
       payload: recipients,
